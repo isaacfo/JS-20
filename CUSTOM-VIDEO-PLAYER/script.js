@@ -24,12 +24,27 @@ function updatePlayIcon() {
 
 // update progress and timestamp
 function updateProgress() {
-  return true;
+  // makes progress bar thing move
+  progress.value = (video.currentTime / video.duration) * 100;
+
+  // Get minutes
+  let mins = Math.floor(video.currentTime / 60);
+  if (mins < 10) {
+    mins = '0' + String(mins);
+  }
+  // Get seconds
+  let secs = Math.floor(video.currentTime % 60);
+  if (secs < 10) {
+    secs = '0' + String(secs);
+  }
+
+  timestamp.innerHTML = `${mins}:${secs}`;
 }
 
 // Set video time to progress
 function setVideoProgress() {
-  return true;
+  //  cant skip to any point in video now by moving bar thing/clicking on bar
+  video.currentTime = (+progress.value * video.duration) / 100;
 }
 
 // stop video
