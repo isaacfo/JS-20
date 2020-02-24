@@ -45,6 +45,13 @@ function addData(obj) {
   updateDOM();
 }
 
+// Sort users by richest
+function sortByRichest() {
+  data.sort((a, b) => b.money - a.money);
+
+  updateDOM();
+}
+
 // Update DOM
 // if nothing is passed into the updateDOM the default of == data will show up
 function updateDOM(providedData = data) {
@@ -70,3 +77,4 @@ function formatMoney(number) {
 // Event listeners
 addUserBtn.addEventListener('click', getRandomUser);
 doubleBtn.addEventListener('click', doubleMoney);
+sortBtn.addEventListener('click', sortByRichest);
