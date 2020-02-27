@@ -31,7 +31,7 @@ function searchMeal(e) {
             .map(
               meal => `<div class="meal">
           <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
-          <div class = "meal-info" data-mealID="${meal.idMeal}">
+          <div class= "meal-info" data-mealID="${meal.idMeal}">
           <h3>${meal.strMeal}</h3>
           </div>
           </div>`
@@ -57,6 +57,21 @@ function getMeakById(mealID) {
     });
 }
 
+// Fetch Random Meal from API
+function getRandomMeal() {
+  // clear meals and heading
+  mealsEl.innerHTML = '';
+  resultHeading.innerHTML = '';
+
+  fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
+    .then(res => res.json())
+    .then(data => {
+      const meal = data.meals[0];
+
+      addMealToDOM(meal);
+    });
+}
+
 // Add meal to DOM
 function addMealToDOM(meal) {
   const ingredients = [];
@@ -74,14 +89,14 @@ function addMealToDOM(meal) {
   single_mealEl.innerHTML = `<div class="single-meal">
   <h1>${meal.strMeal}</h1>
   <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
-  <div class="single=meal-info">
+  <div class="single-meal-info">
   ${meal.strCategory ? `<p>${meal.strCategory}</p>` : ''}
   ${meal.strArea ? `<p>${meal.strArea}</p>` : ''}
   </div>
   <div class="main">
   <p>${meal.strInstructions}</p>
   <h2>Ingredients</h2>
-  <ul>${ingredients.map(ing => `<li>${ing}</li>`)}
+  <ul>${ingredients.map(ing => `<li>${ing}</li>`).join('')}
   </ul>
   </div>
   </div>`;
@@ -89,6 +104,7 @@ function addMealToDOM(meal) {
 
 // Event listeners
 submit.addEventListener('submit', searchMeal);
+random.addEventListener('click', getRandomMeal);
 
 mealsEl.addEventListener('click', e => {
   // if it has meal-info class return it
