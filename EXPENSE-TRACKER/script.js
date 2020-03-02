@@ -4,7 +4,7 @@ const money_minus = document.getElementById('money-minus');
 const list = document.getElementById('list');
 const form = document.getElementById('form');
 const text = document.getElementById('text');
-const amounrt = document.getElementById('amount');
+const amount = document.getElementById('amount');
 
 const dummyTransactions = [
   { id: 1, text: 'Flower', amount: -20 },
@@ -14,6 +14,34 @@ const dummyTransactions = [
 ];
 
 let transactions = dummyTransactions;
+
+// Add transaction
+function addTransaction(e) {
+  e.preventDefault();
+
+  if (text.value.trim() === '' || amount.value.trim() === '') {
+    alert('Please add a text and amount');
+  } else {
+    const transaction = {
+      id: generateID(),
+      text: text.value,
+      amount: +amount.value
+    };
+    transactions.push(transaction);
+
+    addTransactionDOM(transaction);
+
+    updateValues();
+
+    text.value = '';
+    amount.value = '';
+  }
+}
+
+// Generate random id
+function generateID() {
+  return Math.floor(Math.random() * 100000000);
+}
 
 // Add transactions to DOM list
 function addTransactionDOM(transaction) {
@@ -27,7 +55,9 @@ function addTransactionDOM(transaction) {
 
   item.innerHTML = `${transaction.text} <span>${sign}${Math.abs(
     transaction.amount
-  )}</span> <button class="delete-btn">x</button>`;
+  )}</span> <button class="delete-btn" onclick="removeTransaction(${
+    transaction.id
+  })">x</button>`;
 
   list.appendChild(item);
 }
@@ -47,12 +77,19 @@ function updateValues() {
     amounts.filter(item => item < 0).reduce((acc, item) => (acc += item), 0) *
     -1
   ).toFixed(2);
-  console.log(expense);
 
   balance.innerText = `$${total}`;
   money_plus.innerText = `$${income}`;
   money_minus.innerText = `$${expense}`;
 }
+
+// Remove transaction by ID
+function removeTransaction(id) {
+  transactions = transactions.filter(transaction => transaction.id !== id);
+
+  init();
+}
+
 // Init app
 function init() {
   list.innerHTML = '';
@@ -62,3 +99,5 @@ function init() {
 }
 
 init();
+
+form.addEventListener('submit', addTransaction);
