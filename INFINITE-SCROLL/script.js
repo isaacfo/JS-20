@@ -54,7 +54,7 @@ function filterPosts(e) {
   posts.forEach(post => {
     const title = post.querySelector('.post-title').innerText.toUpperCase();
     const body = post.querySelector('.post-body').innerText.toUpperCase();
-
+    // if it doesn't match with whats put in the input it returns -1 so being greater means it will show and the word or letters are there
     if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
       post.style.display = 'flex';
     } else {
