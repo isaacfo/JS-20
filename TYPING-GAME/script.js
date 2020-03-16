@@ -41,6 +41,18 @@ let score = 0;
 // Init time
 let time = 10;
 
+// Set difficulty to value in local storage is no value it becomes medium
+let difficulty =
+  localStorage.getItem('difficulty') !== null
+    ? localStorage.getItem('difficulty')
+    : 'medium';
+
+// Set diffiucltu set value on reload it stats on whats in local storage
+difficultySelect.value =
+  localStorage.getItem('difficulty') !== null
+    ? localStorage.getItem('difficulty')
+    : 'medium';
+
 // Focus on text on start
 text.focus();
 
@@ -90,6 +102,8 @@ function gameOver() {
 addWordTODOM();
 
 // Event listeners
+
+// Typing input
 text.addEventListener('input', e => {
   const insertedText = e.target.value;
 
@@ -100,8 +114,25 @@ text.addEventListener('input', e => {
     // Clear inputed text
     e.target.value = '';
 
-    time += 5;
+    if (difficulty === 'hard') {
+      time += 2;
+    } else if (difficulty === 'medium') {
+      time += 3;
+    } else {
+      time += 5;
+    }
 
     updateTime();
   }
+});
+
+// Settings btn click
+settingsBtn.addEventListener('click', () => {
+  settings.classList.toggle('hide');
+});
+
+// Settings select
+settingsForm.addEventListener('change', e => {
+  difficulty = e.target.value;
+  localStorage.setItem('difficulty', difficulty);
 });
