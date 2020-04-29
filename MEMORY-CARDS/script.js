@@ -78,3 +78,34 @@ function updateCurrentText() {
 }
 
 createCards();
+
+// Event listeners
+
+nextBtn.addEventListener('click', () => {
+  cardsEl[currentActiveCard].className = 'card left';
+
+  currentActiveCard = currentActiveCard + 1;
+  // theres a certain number in array but will alwyas be one less because arrays are zero based, so legnth is always actually 1 shorter thus -1 to pick last item
+  if (currentActiveCard > cardsEl.length - 1) {
+    currentActiveCard = cardsEl.length - 1;
+  }
+
+  cardsEl[currentActiveCard].className = 'card active';
+
+  //   makes first number in fraction change when clicked on next card
+  updateCurrentText();
+});
+prevBtn.addEventListener('click', () => {
+  cardsEl[currentActiveCard].className = 'card right';
+
+  currentActiveCard = currentActiveCard - 1;
+  // theres a certain number in array but will alwyas be one less because arrays are zero based, so legnth is always actually 1 shorter thus -1 to pick last item
+  if (currentActiveCard < 0) {
+    currentActiveCard = 0;
+  }
+
+  cardsEl[currentActiveCard].className = 'card active';
+
+  //   makes first number in fraction change when clicked on next card
+  updateCurrentText();
+});
